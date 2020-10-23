@@ -16,6 +16,7 @@ class Game{
         });
     }
     async start() {
+        
             if (gameState === 0) {
                 player = new Player();
                 var playerCountRef = await database.ref('playerCount').once("value");
@@ -39,6 +40,8 @@ class Game{
         
                 form.hide();
 
+                
+
                 Player.getPlayerInfo();
                  image(back_img, 0, 0, 1000, 800);
                  var x =100;
@@ -48,11 +51,11 @@ class Game{
                  for(var plr in allPlayers){
                     
                     
-                     index = index+1;
+                     index = index + 1;
                      x = 500-allPlayers[plr].distance;
-                     y=500;
+                     y = 500;
                      
-                     players[index -1].x = x;
+                     players[index - 1].x = x;
                      players[index - 1].y = y;
                        
                      if(index === player.index){
@@ -63,8 +66,9 @@ class Game{
 
                          
                      }
-                    
-                     
+                     fill("white");
+                     text("Player1 :" + allPlayers.player1.score, 50, 50);
+                     text("player2 :" + allPlayers.player2.score, 50, 75);
                  
                  }
                 
@@ -102,9 +106,15 @@ class Game{
                  
                   if (player.index !== null) {
                      //fill code here, to destroy the objects.
-                    if(fruitGroup.isTouching(player.index)){
-                        fruitGroup.destroyEach()
+                    for(var i=0; i < fruitGroup.length; i++){
+                        if(fruitGroup.get(i).isTouching(players)){
+                        fruitGroup.get(i).destroy()
+                        player.score += 1;
+                        player.update()
+                        }
                     }
+
+                    
                   }
                 
 
